@@ -3,8 +3,13 @@ package main
 import (
 	"net/http"
 
+	"github.com/MRX173/gin-be/config"
 	"github.com/gin-gonic/gin"
 )
+
+func init() {
+	config.ConnectDB()
+}
 
 func main() {
 	router := gin.Default()
