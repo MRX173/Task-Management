@@ -1,7 +1,12 @@
 ﻿package config
 
-import "github.com/MRX173/gin-be/internal/models"
+import (
+	"github.com/MRX173/gin-be/internal/models"
+)
 
-func syncDB() {
-	DB.AutoMigrate(&models.User{})
+func SyncDB() {
+	err := DB.AutoMigrate(&models.User{})
+	if err != nil {
+		return
+	}
 }

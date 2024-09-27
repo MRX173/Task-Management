@@ -4,11 +4,13 @@ import (
 	"net/http"
 
 	"github.com/MRX173/gin-be/config"
+	controller "github.com/MRX173/gin-be/internal/controllers"
 	"github.com/gin-gonic/gin"
 )
 
 func init() {
 	config.ConnectDB()
+	config.SyncDB()
 }
 
 func main() {
@@ -19,6 +21,9 @@ func main() {
 			"message": "Welcome to Gin!",
 		})
 	})
+
+	router.POST("/signup", controller.Signup)
+	router.POST("/login", controller.Login)
 
 	router.Run(":8080")
 }
