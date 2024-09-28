@@ -5,6 +5,7 @@ import (
 
 	"github.com/MRX173/gin-be/config"
 	controller "github.com/MRX173/gin-be/internal/controllers"
+	middelwares "github.com/MRX173/gin-be/internal/middlewares"
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,6 +25,7 @@ func main() {
 
 	router.POST("/signup", controller.Signup)
 	router.POST("/login", controller.Login)
+	router.GET("/validate", middelwares.RequireAuth, controller.ValidateToken)
 
 	router.Run(":8080")
 }

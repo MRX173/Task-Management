@@ -44,9 +44,6 @@ func Signup(c *gin.Context) {
 	c.JSON(http.StatusAccepted, gin.H{})
 }
 
-
-
-
 func Login(c *gin.Context) {
 	var body struct {
 		Email    string `json:"email"`
@@ -80,7 +77,7 @@ func Login(c *gin.Context) {
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.MapClaims{
 		"sub": user.ID,
-		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(), 
+		"exp": time.Now().Add(time.Hour * 24 * 30).Unix(),
 	})
 
 	hmacSecret := []byte("9d76e6d9cb519dbce89d39ff99d4a37aed1a00a83755f9ec7dfda3d596ec7978")
@@ -93,7 +90,15 @@ func Login(c *gin.Context) {
 		return
 	}
 
+	c.SetSameSite(http.SameSiteLaxMode)
+	c.SetCookie("Authorization", tokenString, 3600*24*30, "", "", false, true)
+
+	c.JSON(http.StatusOK, gin.H{})
+}
+
+func ValidateToken(c *gin.Context) {
+	user, _ := c.Get("user")
 	c.JSON(http.StatusOK, gin.H{
-		"token": tokenString,
+		"message": user,
 	})
 }
